@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="page-title">View Records</h1>
+<p class="page-subtitle"><i class="fa-solid fa-table" style="color: var(--primary-lighter); margin-right: 6px;"></i>Browse, search, and edit all family genetics records</p>
+
+<div class="glass-card" style="margin-bottom: 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; gap: 16px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 300px; max-width: 400px;">
+            <label style="display:block; margin-bottom:8px; font-weight:600;">Search Records</label>
+            <input type="text" id="searchInput" class="form-control" placeholder="Search by name, MR number, etc..." onkeyup="filterRecords()">
+        </div>
+        <div style="min-width: 200px;">
+            <label style="display:block; margin-bottom:8px; font-weight:600;">Display Columns</label>
+            <select id="displayMode" class="form-control" onchange="renderRecordsTable()">
+                <option value="essential">Essential Columns</option>
+                <option value="all">All Columns</option>
+            </select>
+        </div>
+        <div>
+            <a href="{{ url_for('export_data') }}" class="btn btn-success" style="height: 42px;">
+                <i class="fa-solid fa-download"></i> Export Data
+            </a>
+        </div>
+    </div>
+    
+    <div class="table-container" style="max-height: 600px; overflow: auto;">
+        <table id="recordsTable">
+            <thead id="recordsHead">
+                <!-- Dynamically generated -->
+            </thead>
+            <tbody id="recordsBody">
+                <tr><td colspan="100%" style="text-align: center;"><div class="loader"></div> Loading records...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ── Edit Modal ──────────────────────────────────────────────────────── -->
+<div id="editModal" style="display:none; position:fixed; inset:0; z-index:1000; background:rgba(0,0,0,0.5); backdrop-filter:blur(4px); overflow-y:auto;">
+    <div style="max-width:700px; margin:40px auto; padding:16px;">
+        <div class="glass-card" style="border-radius:20px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px;">
+                <div>
+                    <h2 style="margin:0;">Edit Record</h2>
+                    <p id="editModalId" style="margin:4px 0 0; color:var(--text-light); font-size:0.9rem;"></p>
+                </div>
+                <button onclick="closeEditModal()" style="background:none; border:none; cursor:pointer; font-size:1.5rem; color:var(--text-light);">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="editForm" onsubmit="saveEdit(event)">
+                <input type="hidden" id="edit_individual_id">
+
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+                    <div class="form-group">
+                        <label>MR Number</label>
+                        <input type="text" id="edit_mr_number" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="edit_name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>CNIC</label>
+                        <input type="text" id="edit_cnic" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" id="edit_age" class="form-control" min="0" max="120">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select id="edit_gender" class="form-control">
+                            <option value=""></option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Batch Number</label>
+                        <input type="text" id="edit_batch_number" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Doctor</label>
+                        <input type="text" id="edit_doctor" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Department</label>
+                        <select id="edit_department" class="form-control">
+                            <option value=""></option>
+                            <option value="Cornea">Cornea</option>
+                            <option value="Genetics">Genetics</option>
+                            <option value="Pediatrics">Pediatrics</option>
+                            <option value="Retina">Retina</option>
+                            <option value="Oculoplastics">Oculoplastics</option>
+                            <option value="Ocular Oncology">Ocular Oncology</option>
+                            <option value="Glaucoma">Glaucoma</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Disease</label>
+                        <input type="text" id="edit_disease" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Sequencing Type</label>
+                        <select id="edit_sequencing" class="form-control">
+                            <option value=""></option>
+                            <option value="Whole Genome">Whole Genome</option>
+                            <option value="Whole Exome">Whole Exome</option>
+                            <option value="Mitochondrial">Mitochondrial</option>
+                            <option value="Sanger">Sanger</option>
+                            <option value="SNP array">SNP array</option>
+                            <option value="rRNA">rRNA</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Sample Collected</label>
+                        <input type="text" id="edit_sample" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Analysis Status</label>
+                        <select id="edit_status" class="form-control">
+                            <option value="Individual Complete - Ready for Bioinformatics">Ready for Bioinformatics</option>
+                            <option value="Bioinformatics Analysis Complete">Bioinformatics Complete</option>
+                            <option value="Pending Sample Collection">Pending Sample Collection</option>
+                            <option value="On Hold">On Hold</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr style="margin:20px 0; border:0; border-top:1px solid rgba(0,0,0,0.1);">
+
+                <div style="display:flex; gap:24px; margin-bottom:20px; flex-wrap:wrap;">
+                    <div>
+                        <label style="display:block; font-weight:600; margin-bottom:8px;">Affected Status</label>
+                        <label><input type="radio" name="edit_affected" value="Yes"> Affected</label>&nbsp;&nbsp;
+                        <label><input type="radio" name="edit_affected" value="No"> Not Affected</label>
+                    </div>
+                    <div>
+                        <label style="display:block; font-weight:600; margin-bottom:8px;">Consanguinity</label>
+                        <label><input type="radio" name="edit_consanguinity" value="Yes"> Yes</label>&nbsp;&nbsp;
+                        <label><input type="radio" name="edit_consanguinity" value="No"> No</label>
+                    </div>
+                    <div>
+                        <label style="display:block; font-weight:600; margin-bottom:8px;">Category</label>
+                        <label><input type="radio" name="edit_category" value="Free"> Free</label>&nbsp;&nbsp;
+                        <label><input type="radio" name="edit_category" value="Private"> Private</label>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:12px;">
+                    <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+                    <button type="button" class="btn" style="background:#e9ecef;" onclick="closeEditModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', loadRecords);
+
+    function openEditModal(individualId) {
+        const record = globalRecords.find(r => r.IndividualID === individualId);
+        if (!record) return;
+
+        document.getElementById('editModalId').textContent = individualId;
+        document.getElementById('edit_individual_id').value = record.IndividualID;
+        document.getElementById('edit_mr_number').value   = record.MRNumber || '';
+        document.getElementById('edit_name').value        = record.Name || '';
+        document.getElementById('edit_cnic').value        = record.CNIC || '';
+        document.getElementById('edit_age').value         = record.Age || '';
+        document.getElementById('edit_gender').value      = record.Gender || '';
+        document.getElementById('edit_batch_number').value = record.BatchNumber || '';
+        document.getElementById('edit_doctor').value      = record.Doctor || '';
+        document.getElementById('edit_department').value  = record.Department || '';
+        document.getElementById('edit_disease').value     = record.Disease || '';
+        document.getElementById('edit_sequencing').value  = record.Sequencing || '';
+        document.getElementById('edit_sample').value      = record.SampleCollected || '';
+        document.getElementById('edit_status').value      = record.AnalysisStatus || '';
+
+        // Set radios
+        const setRadio = (name, value) => {
+            const radios = document.querySelectorAll(`input[name="${name}"]`);
+            radios.forEach(r => r.checked = (r.value === value));
+        };
+        setRadio('edit_affected',      record.Affected || 'Yes');
+        setRadio('edit_consanguinity', record.Consanguinity || 'No');
+        setRadio('edit_category',      record.Category || 'Private');
+
+        document.getElementById('editModal').style.display = 'block';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeEditModal() {
+        document.getElementById('editModal').style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    // Close on backdrop click
+    document.getElementById('editModal').addEventListener('click', function(e) {
+        if (e.target === this) closeEditModal();
+    });
+
+    function saveEdit(e) {
+        e.preventDefault();
+        const payload = {
+            individual_id:  document.getElementById('edit_individual_id').value,
+            MRNumber:       document.getElementById('edit_mr_number').value,
+            Name:           document.getElementById('edit_name').value,
+            CNIC:           document.getElementById('edit_cnic').value,
+            Age:            document.getElementById('edit_age').value,
+            Gender:         document.getElementById('edit_gender').value,
+            BatchNumber:    document.getElementById('edit_batch_number').value,
+            Doctor:         document.getElementById('edit_doctor').value,
+            Department:     document.getElementById('edit_department').value,
+            Disease:        document.getElementById('edit_disease').value,
+            Sequencing:     document.getElementById('edit_sequencing').value,
+            SampleCollected: document.getElementById('edit_sample').value,
+            AnalysisStatus: document.getElementById('edit_status').value,
+            Affected:       document.querySelector('input[name="edit_affected"]:checked')?.value || 'Yes',
+            Consanguinity:  document.querySelector('input[name="edit_consanguinity"]:checked')?.value || 'No',
+            Category:       document.querySelector('input[name="edit_category"]:checked')?.value || 'Private',
+        };
+
+        fetch('/api/update_individual', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                showToast(data.message, 'success');
+                closeEditModal();
+                loadRecords(); // Refresh table
+            } else {
+                showToast(data.message, 'error');
+            }
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="page-title">Bioinformatics Analysis</h1>
+<p class="page-subtitle"><i class="fa-solid fa-microscope" style="color: var(--primary-lighter); margin-right: 6px;"></i>Manage and track bioinformatics analysis cases</p>
+
+<div class="kpi-grid">
+    <div class="glass-card kpi-card">
+        <div class="kpi-icon icon-purple">
+            <i class="fa-solid fa-clock"></i>
+        </div>
+        <div class="kpi-info">
+            <h3>Pending Analysis</h3>
+            <div class="value" id="pending_count">0</div>
+        </div>
+    </div>
+    
+    <div class="glass-card kpi-card">
+        <div class="kpi-icon icon-green">
+            <i class="fa-solid fa-check-circle"></i>
+        </div>
+        <div class="kpi-info">
+            <h3>Completed Analysis</h3>
+            <div class="value" id="completed_count">0</div>
+        </div>
+    </div>
+    
+    <div class="glass-card kpi-card">
+        <div class="kpi-icon icon-blue">
+            <i class="fa-solid fa-users"></i>
+        </div>
+        <div class="kpi-info">
+            <h3>Total Cases</h3>
+            <div class="value" id="total_count">0</div>
+        </div>
+    </div>
+</div>
+
+<div class="glass-card" style="margin-bottom: 24px;">
+    <h2 style="margin-bottom: 20px;">Analysis Controls</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+        <div class="form-group">
+            <label>Select Individual for Analysis:</label>
+            <select id="analysis_individual" class="form-control">
+                <option value="">Loading individuals...</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Analysis Type:</label>
+            <select id="analysis_type" class="form-control">
+                <option value="whole_genome">Whole Genome Analysis</option>
+                <option value="whole_exome">Whole Exome Analysis</option>
+                <option value="variant_calling">Variant Calling</option>
+                <option value="pathway_analysis">Pathway Analysis</option>
+                <option value="population_genetics">Population Genetics</option>
+            </select>
+        </div>
+    </div>
+    <button type="button" class="btn btn-success" style="width: 100%; padding: 16px; font-size: 1.1rem;" onclick="startAnalysis()">
+        <i class="fa-solid fa-play"></i> Start Bioinformatics Analysis
+    </button>
+</div>
+
+<div class="glass-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>Cases Ready for Analysis</h2>
+        <button type="button" class="btn" style="background:#e9ecef;" onclick="loadAnalysisQueue()">
+            <i class="fa-solid fa-rotate-right"></i> Refresh Queue
+        </button>
+    </div>
+    <div class="table-container" style="max-height: 400px;">
+        <table id="queueTable">
+            <thead>
+                <tr>
+                    <th>Individual ID</th>
+                    <th>Name</th>
+                    <th>Disease</th>
+                    <th>Sequencing</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td colspan="4" style="text-align: center;"><div class="loader"></div> Loading queue...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', loadAnalysisQueue);
+</script>
+{% endblock %}

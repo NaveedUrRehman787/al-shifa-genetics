@@ -1,0 +1,14 @@
+genetics.db
+genetics.db-shm
+genetics.db-wal
+flask_log.txt
+flask_err.txt
+shiny_log.txt
+shiny_err.txt
+*.Rhistory
+.Rproj.user/
+robust/
+__pycache__/
+*.pyc
+.vscode/
+.idea/

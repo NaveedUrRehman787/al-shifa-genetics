@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="page-title">Settings</h1>
+<p class="page-subtitle"><i class="fa-solid fa-gear" style="color: var(--primary-lighter); margin-right: 6px;"></i>Application configuration and data management</p>
+
+<div class="glass-card" style="max-width: 800px;">
+    <h2 style="margin-bottom: 20px;">Data Management</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;">
+        <div style="background: rgba(0,0,0,0.02); padding: 16px; border-radius: 12px; text-align:center;">
+            <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 4px;">Database File</p>
+            <p style="font-weight: 600;">{{ db_file }}</p>
+        </div>
+        <div style="background: rgba(0,0,0,0.02); padding: 16px; border-radius: 12px; text-align:center;">
+            <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 4px;">Database Size</p>
+            <p style="font-weight: 600;">{{ db_size }} KB</p>
+        </div>
+        <div style="background: rgba(0,0,0,0.02); padding: 16px; border-radius: 12px; text-align:center;">
+            <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 4px;">Total Records</p>
+            <p style="font-weight: 600;">{{ total_records }}</p>
+        </div>
+    </div>
+    
+    <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+        <a href="{{ url_for('export_data') }}" class="btn btn-success">
+            <i class="fa-solid fa-file-excel"></i> Export All Data to Excel
+        </a>
+        <button type="button" class="btn btn-danger" onclick="clearData()">
+            <i class="fa-solid fa-trash"></i> Clear All Data
+        </button>
+    </div>
+    
+    <hr style="margin: 32px 0; border: 0; border-top: 1px solid rgba(0,0,0,0.1);">
+    
+    <h2 style="margin-bottom: 20px;">System Information</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+        <div style="background: rgba(0,0,0,0.02); padding: 16px; border-radius: 12px;">
+            <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 4px;">Application Version</p>
+            <p style="font-weight: 600; font-size: 1.1rem;">3.0</p>
+        </div>
+        <div style="background: rgba(0,0,0,0.02); padding: 16px; border-radius: 12px;">
+            <p style="color: var(--text-light); font-size: 0.9rem; margin-bottom: 4px;">Database Type</p>
+            <p style="font-weight: 600; font-size: 1.1rem;">SQLite</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

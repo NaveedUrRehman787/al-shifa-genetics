@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="page-title">Dashboard</h1>
+<p class="page-subtitle"><i class="fa-solid fa-dna" style="color: var(--primary-lighter); margin-right: 6px;"></i>Al-Shifa Trust &middot; Ophthalmic Genetics Database</p>
+
+<div class="kpi-grid">
+    <div class="glass-card kpi-card">
+        <div class="kpi-icon icon-blue">
+            <i class="fa-solid fa-people-group"></i>
+        </div>
+        <div class="kpi-info">
+            <h3>Total Families</h3>
+            <div class="value">{{ total_families }}</div>
+        </div>
+    </div>
+
+    <div class="glass-card kpi-card">
+        <div class="kpi-icon icon-green">
+            <i class="fa-solid fa-user"></i>
+        </div>
+        <div class="kpi-info">
+            <h3>Total Individuals</h3>
+            <div class="value">{{ total_individuals }}</div>
+        </div>
+    </div>
+
+    <div class="glass-card kpi-card">
+        <div class="kpi-icon icon-red">
+            <i class="fa-solid fa-disease"></i>
+        </div>
+        <div class="kpi-info">
+            <h3>Diseases</h3>
+            <div class="value">{{ total_diseases }}</div>
+        </div>
+    </div>
+
+    <div class="glass-card kpi-card">
+        <div class="kpi-icon icon-purple">
+            <i class="fa-solid fa-user-md"></i>
+        </div>
+        <div class="kpi-info">
+            <h3>Doctors</h3>
+            <div class="value">{{ total_doctors }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="glass-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h2 style="font-size: 1.2rem; font-weight: 700;">Quick Actions</h2>
+        <i class="fa-solid fa-bolt" style="color: var(--accent); font-size: 1.2rem;"></i>
+    </div>
+    <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+        <a href="{{ url_for('add_family') }}" class="btn btn-primary">
+            <i class="fa-solid fa-plus"></i> Add New Family
+        </a>
+        <a href="{{ url_for('view_records') }}" class="btn btn-success">
+            <i class="fa-solid fa-table"></i> View All Records
+        </a>
+        <a href="{{ url_for('export_data') }}" class="btn btn-danger">
+            <i class="fa-solid fa-download"></i> Download Data
+        </a>
+    </div>
+</div>
+{% endblock %}
