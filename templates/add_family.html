@@ -81,7 +81,8 @@
                 </div>
                 <div class="form-group">
                     <label>Disease</label>
-                    <input type="text" id="disease" class="form-control">
+                    <input type="text" id="disease" class="form-control" list="diseaseList" autocomplete="off" placeholder="Type or select a disease...">
+                    <datalist id="diseaseList"></datalist>
                 </div>
                 <div class="form-group">
                     <label>Sequencing Type</label>
@@ -150,4 +151,28 @@
         </button>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deptSelect = document.getElementById('department');
+    const diseaseInput = document.getElementById('disease');
+    const diseaseList = document.getElementById('diseaseList');
+
+    function loadDiseases(department) {
+        const url = department ? `/api/diseases?department=${encodeURIComponent(department)}` : '/api/diseases';
+        fetch(url)
+            .then(r => r.json())
+            .then(diseases => {
+                diseaseList.innerHTML = diseases.map(d => `<option value="${d}">`).join('');
+            });
+    }
+
+    loadDiseases('');
+    deptSelect.addEventListener('change', function() {
+        loadDiseases(this.value);
+    });
+});
+</script>
 {% endblock %}

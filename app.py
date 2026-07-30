@@ -237,6 +237,21 @@ def api_records():
         rows = conn.execute(f"SELECT {', '.join(COLUMNS)} FROM individuals ORDER BY FamilyID, IndividualID").fetchall()
     return jsonify([row_to_dict(r) for r in rows])
 
+@app.route('/api/diseases')
+def api_diseases():
+    department = request.args.get('department', '')
+    with get_db() as conn:
+        if department:
+            rows = conn.execute(
+                "SELECT DISTINCT Disease FROM individuals WHERE Department=? AND Disease != '' ORDER BY Disease",
+                (department,)
+            ).fetchall()
+        else:
+            rows = conn.execute(
+                "SELECT DISTINCT Disease FROM individuals WHERE Disease != '' ORDER BY Disease"
+            ).fetchall()
+    return jsonify([r[0] for r in rows])
+
 @app.route('/remaining_analysis')
 def remaining_analysis():
     return render_template('remaining_analysis.html')
