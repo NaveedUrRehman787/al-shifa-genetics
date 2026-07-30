@@ -1,26 +1,30 @@
 :root {
-  --primary: #1A56DB;
-  --primary-light: #2563EB;
-  --primary-lighter: #3B82F6;
-  --primary-glow: rgba(59, 130, 246, 0.2);
-  --accent: #60A5FA;
-  --accent-dark: #3B82F6;
+  --primary: #01579B;
+  --primary-light: #0277BD;
+  --primary-lighter: #0288D1;
+  --primary-glow: rgba(1, 87, 155, 0.2);
+  --accent: #29B6F6;
+  --accent-dark: #0288D1;
   --surface: #FFFFFF;
-  --surface-alt: #F0F5FF;
+  --surface-alt: #E1F5FE;
   --bg-gradient-start: #FFFFFF;
-  --bg-gradient-end: #EBF2FF;
+  --bg-gradient-end: #E1F5FE;
   --text-primary: #1E293B;
   --text-secondary: #475569;
   --text-muted: #94A3B8;
   --danger: #EF4444;
-  --success: #2563EB;
+  --success: #0277BD;
   --sidebar-width: 270px;
   --radius-sm: 8px;
   --radius-md: 16px;
   --radius-lg: 24px;
-  --shadow-sm: 0 2px 8px rgba(30, 64, 175, 0.06);
-  --shadow-md: 0 8px 30px rgba(30, 64, 175, 0.08);
-  --shadow-lg: 0 16px 50px rgba(30, 64, 175, 0.1);
+  --shadow-sm: 0 2px 8px rgba(1, 87, 155, 0.06);
+  --shadow-md: 0 8px 30px rgba(1, 87, 155, 0.08);
+  --shadow-lg: 0 16px 50px rgba(1, 87, 155, 0.1);
+  --primary-color: #01579B;
+  --success-color: #0277BD;
+  --danger-color: #EF4444;
+  --text-light: #94A3B8;
 }
 
 * {
@@ -43,9 +47,9 @@ body::before {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
   background-image:
-    radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(96, 165, 250, 0.03) 0%, transparent 50%),
-    radial-gradient(circle at 50% 80%, rgba(37, 99, 235, 0.03) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, rgba(1, 87, 155, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(41, 182, 246, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(2, 119, 189, 0.03) 0%, transparent 50%);
   pointer-events: none;
   z-index: 0;
 }
@@ -53,13 +57,13 @@ body::before {
 /* ─── Sidebar ─── */
 .sidebar {
   width: var(--sidebar-width);
-  background: linear-gradient(180deg, #1E3A5F 0%, #1A56DB 40%, #2563EB 100%);
+  background: linear-gradient(180deg, #002f6c 0%, #01579B 40%, #0277BD 100%);
   height: 100vh;
   position: fixed;
   display: flex;
   flex-direction: column;
   z-index: 100;
-  box-shadow: 4px 0 30px rgba(30, 58, 95, 0.2);
+  box-shadow: 4px 0 30px rgba(0, 47, 108, 0.2);
   overflow: hidden;
 }
 
@@ -71,8 +75,8 @@ body::before {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.06) 0%, transparent 60%),
-    radial-gradient(circle at 30% 70%, rgba(96, 165, 250, 0.04) 0%, transparent 60%);
+    radial-gradient(circle at 70% 30%, rgba(2, 119, 189, 0.06) 0%, transparent 60%),
+    radial-gradient(circle at 30% 70%, rgba(41, 182, 246, 0.04) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -175,7 +179,7 @@ body::before {
 }
 
 .nav-links a.active {
-  background: rgba(46, 196, 182, 0.15);
+  background: rgba(2, 119, 189, 0.15);
   color: var(--primary-lighter);
   box-shadow: inset 3px 0 0 var(--primary-lighter);
 }
@@ -312,10 +316,10 @@ body::before {
   flex-shrink: 0;
 }
 
-.icon-blue { background: linear-gradient(135deg, #1E3A5F, #1A56DB); box-shadow: 0 4px 12px rgba(30, 58, 95, 0.25); }
-.icon-green { background: linear-gradient(135deg, #2563EB, #3B82F6); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25); }
-.icon-red { background: linear-gradient(135deg, #3B82F6, #60A5FA); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25); }
-.icon-purple { background: linear-gradient(135deg, #1A56DB, #3B82F6); box-shadow: 0 4px 12px rgba(26, 86, 219, 0.25); }
+.icon-blue { background: linear-gradient(135deg, #002f6c, #01579B); box-shadow: 0 4px 12px rgba(0, 47, 108, 0.25); }
+.icon-green { background: linear-gradient(135deg, #01579B, #0277BD); box-shadow: 0 4px 12px rgba(1, 87, 155, 0.25); }
+.icon-red { background: linear-gradient(135deg, #0277BD, #0288D1); box-shadow: 0 4px 12px rgba(2, 119, 189, 0.25); }
+.icon-purple { background: linear-gradient(135deg, #01579B, #0288D1); box-shadow: 0 4px 12px rgba(1, 87, 155, 0.25); }
 
 .kpi-info h3 {
   font-size: 0.78rem;
@@ -350,7 +354,7 @@ body::before {
 .form-control {
   width: 100%;
   padding: 11px 14px;
-  border: 1.5px solid rgba(11, 45, 53, 0.08);
+  border: 1.5px solid rgba(1, 87, 155, 0.08);
   border-radius: var(--radius-sm);
   background: rgba(255, 255, 255, 0.9);
   font-size: 0.9rem;
@@ -402,23 +406,23 @@ select.form-control {
 .btn-primary {
   background: linear-gradient(135deg, var(--primary), var(--primary-light));
   color: white;
-  box-shadow: 0 3px 12px rgba(11, 82, 91, 0.2);
+  box-shadow: 0 3px 12px rgba(1, 87, 155, 0.2);
 }
 
 .btn-primary:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(11, 82, 91, 0.3);
+  box-shadow: 0 6px 20px rgba(1, 87, 155, 0.3);
 }
 
 .btn-success {
-  background: linear-gradient(135deg, #2563EB, #3B82F6);
+  background: linear-gradient(135deg, #01579B, #0277BD);
   color: white;
-  box-shadow: 0 3px 12px rgba(37, 99, 235, 0.2);
+  box-shadow: 0 3px 12px rgba(1, 87, 155, 0.2);
 }
 
 .btn-success:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 6px 20px rgba(1, 87, 155, 0.3);
 }
 
 .btn-danger {
@@ -438,7 +442,7 @@ select.form-control {
   border-radius: var(--radius-sm);
   background: white;
   box-shadow: var(--shadow-sm);
-  border: 1px solid rgba(11, 45, 53, 0.04);
+  border: 1px solid rgba(1, 87, 155, 0.04);
 }
 
 table {
@@ -456,18 +460,18 @@ th {
   color: var(--text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  border-bottom: 2px solid rgba(11, 45, 53, 0.04);
+  border-bottom: 2px solid rgba(1, 87, 155, 0.04);
 }
 
 td {
   padding: 12px 16px;
-  border-bottom: 1px solid rgba(11, 45, 53, 0.03);
+  border-bottom: 1px solid rgba(1, 87, 155, 0.03);
   font-size: 0.88rem;
   color: var(--text-primary);
 }
 
 tr:hover td {
-  background: rgba(46, 196, 182, 0.03);
+  background: rgba(1, 87, 155, 0.03);
 }
 
 /* Status badges */
@@ -481,13 +485,13 @@ tr:hover td {
 }
 
 .status-badge.ready {
-  background: rgba(46, 196, 182, 0.1);
+  background: rgba(2, 119, 189, 0.1);
   color: var(--primary-light);
 }
 
 .status-badge.complete {
-  background: rgba(42, 157, 143, 0.1);
-  color: #2563EB;
+  background: rgba(1, 87, 155, 0.1);
+  color: #01579B;
 }
 
 .status-badge.pending {
@@ -531,7 +535,7 @@ tr:hover td {
 
 /* ─── Loader ─── */
 .loader {
-  border: 3px solid rgba(11, 45, 53, 0.06);
+  border: 3px solid rgba(1, 87, 155, 0.06);
   border-top-color: var(--primary-lighter);
   border-radius: 50%;
   width: 20px;
@@ -552,7 +556,7 @@ tr:hover td {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: rgba(11, 82, 91, 0.08);
+  color: rgba(1, 87, 155, 0.08);
   font-size: 2rem;
   pointer-events: none;
   z-index: 0;

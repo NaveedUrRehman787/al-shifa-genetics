@@ -13,7 +13,7 @@ ui <- fluidPage(
   tags$head(
     tags$style(HTML("
       .header {
-        background-color: #0073B7;
+        background-color: #01579B;
         padding: 20px;
         color: white;
         margin-bottom: 20px;

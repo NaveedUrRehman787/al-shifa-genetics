@@ -249,7 +249,7 @@ window.renderRecordsTable = function() {
                     </button>
                 </td>`;
             } else if (col.key === 'AnalysisStatus') {
-                tr.innerHTML += `<td><span style="padding:4px 8px; border-radius:4px; font-size:0.8rem; background:rgba(67,97,238,0.1); color:var(--primary-color); white-space:nowrap;">${row[col.key] || ''}</span></td>`;
+                tr.innerHTML += `<td><span style="padding:4px 8px; border-radius:4px; font-size:0.8rem; background:rgba(1,87,155,0.1); color:var(--primary-color); white-space:nowrap;">${row[col.key] || ''}</span></td>`;
             } else {
                 tr.innerHTML += `<td>${row[col.key] || ''}</td>`;
             }

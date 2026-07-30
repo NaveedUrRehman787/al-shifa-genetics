@@ -41,13 +41,13 @@ ui <- dashboardPage(
     useShinyjs(),
     tags$head(
       tags$style(HTML("
-        .main-header .navbar { background-color: #337ab7 !important; }
-        .main-header .logo { background-color: #337ab7 !important; color: white !important; font-weight: bold; }
+        .main-header .navbar { background-color: #01579B !important; }
+        .main-header .logo { background-color: #01579B !important; color: white !important; font-weight: bold; }
         .main-sidebar { background-color: #f4f4f4 !important; }
         .content-wrapper { background-color: #f9f9f9 !important; }
         .box, .info-box { border-radius: 5px !important; box-shadow: 0 2px 5px rgba(0,0,0,0.1) !important; }
         .form-control { border-radius: 3px; border: 1px solid #ccc; }
-        .form-control:focus { border-color: #337ab7; box-shadow: 0 0 0 0.2rem rgba(51, 122, 183, 0.25); }
+        .form-control:focus { border-color: #01579B; box-shadow: 0 0 0 0.2rem rgba(1, 87, 155, 0.25); }
         .btn { border-radius: 3px; padding: 8px 16px; }
         
         /* Table container with enhanced scrolling */
@@ -57,7 +57,7 @@ ui <- dashboardPage(
           max-height: 600px;
           background: white; 
           border-radius: 8px; 
-          box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
+          box-shadow: 0 2px 8px rgba(1, 87, 155, 0.1); 
           border: 1px solid #dee2e6;
           position: relative;
           margin-bottom: 20px;
@@ -69,7 +69,7 @@ ui <- dashboardPage(
         }
         
         .shiny-table th { 
-          background-color: #337ab7; 
+          background-color: #01579B; 
           color: white; 
           border: none; 
           white-space: nowrap; 
@@ -115,26 +115,26 @@ ui <- dashboardPage(
         }
         
         .table-container::-webkit-scrollbar-thumb {
-          background: #337ab7;
+          background: #01579B;
           border-radius: 4px;
         }
         
         .table-container::-webkit-scrollbar-thumb:hover {
-          background: #286090;
+          background: #002f6c;
         }
         
-        .search-controls { margin-bottom:20px; padding:20px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius:8px; border:1px solid #dee2e6; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+        .search-controls { margin-bottom:20px; padding:20px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius:8px; border:1px solid #dee2e6; box-shadow:0 2px 4px rgba(1,87,155,0.1); }
         .search-controls .form-control { border-radius:6px; border:2px solid #ced4da; transition: all 0.3s ease; height:38px; }
-        .search-controls .form-control:focus { border-color:#337ab7; box-shadow:0 0 0 0.2rem rgba(51,122,183,0.25); transform:translateY(-1px); }
+        .search-controls .form-control:focus { border-color:#01579B; box-shadow:0 0 0 0.2rem rgba(1,87,155,0.25); transform:translateY(-1px); }
         .search-controls .form-group { margin-bottom:15px; }
         .search-controls .form-group label { margin-bottom:8px; display:block; }
         .search-controls .btn { border-radius:6px; font-weight:600; transition: all 0.3s ease; margin-top:25px; height:38px; }
         .search-controls .btn:hover { transform:translateY(-1px); box-shadow:0 4px 8px rgba(0,0,0,0.15); }
-        .pagination-controls { margin-top:20px; text-align:center; padding:20px; background:linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border-radius:8px; border:1px solid #dee2e6; box-shadow:0 2px 4px rgba(0,0,0,0.1); display:flex; justify-content:center; align-items:center; gap:15px; }
+        .pagination-controls { margin-top:20px; text-align:center; padding:20px; background:linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); border-radius:8px; border:1px solid #dee2e6; box-shadow:0 2px 4px rgba(1,87,155,0.1); display:flex; justify-content:center; align-items:center; gap:15px; }
         .pagination-controls .btn { border-radius:6px; font-weight:600; margin:0 10px; transition: all 0.3s ease; height:40px; min-width:100px; }
         .pagination-controls .btn:hover { transform:translateY(-1px); box-shadow:0 4px 8px rgba(0,0,0,0.15); }
         .pagination-controls .btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
-        .records-info { background:linear-gradient(135deg, #337ab7 0%, #286090 100%); color:white; padding:12px 15px; border-radius:6px; margin-bottom:15px; font-size:14px; font-weight:500; text-align:center; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
+        .records-info { background:linear-gradient(135deg, #01579B 0%, #002f6c 100%); color:white; padding:12px 15px; border-radius:6px; margin-bottom:15px; font-size:14px; font-weight:500; text-align:center; box-shadow:0 2px 4px rgba(0,0,0,0.1); }
       "))
     ),
     
