@@ -227,15 +227,52 @@ def submit_family():
                     "message": f"Family submitted successfully! ID: {family_id}",
                     "family_id": family_id})
 
+@app.route('/all_samples')
+def all_samples():
+    return render_template('all_samples.html')
+
 @app.route('/view_records')
 def view_records():
     return render_template('view_records.html')
 
 @app.route('/api/records')
 def api_records():
+    processed = request.args.get('processed')
+    status_filter = request.args.get('status', '')
+    sql = f"SELECT {', '.join(COLUMNS)} FROM individuals"
+    where = []
+    params = []
+    if processed == '1':
+        where.append("AnalysisStatus='Bioinformatics Analysis Complete'")
+    elif processed == '0':
+        where.append("AnalysisStatus!='Bioinformatics Analysis Complete'")
+    if status_filter:
+        where.append("AnalysisStatus=?")
+        params.append(status_filter)
+    if where:
+        sql += " WHERE " + " AND ".join(where)
+    sql += " ORDER BY FamilyID, IndividualID"
     with get_db() as conn:
-        rows = conn.execute(f"SELECT {', '.join(COLUMNS)} FROM individuals ORDER BY FamilyID, IndividualID").fetchall()
+        rows = conn.execute(sql, params).fetchall()
     return jsonify([row_to_dict(r) for r in rows])
+
+@app.route('/api/mark_processed', methods=['POST'])
+def mark_processed():
+    data   = request.json
+    ind_id = data.get('individual_id')
+    if not ind_id:
+        return jsonify({"success": False, "message": "Missing individual ID."})
+
+    with get_db() as conn:
+        result = conn.execute(
+            "UPDATE individuals SET AnalysisStatus='Bioinformatics Analysis Complete' WHERE IndividualID=?",
+            (ind_id,)
+        )
+        conn.commit()
+        if result.rowcount == 0:
+            return jsonify({"success": False, "message": "Individual not found."})
+
+    return jsonify({"success": True, "message": f"{ind_id} added to processed records."})
 
 @app.route('/api/diseases')
 def api_diseases():
@@ -360,8 +397,8 @@ def clear_data():
 
 if __name__ == '__main__':
     init_db()
-    #app.run(debug=True, port=8000)
-    app.run(host='0.0.0.0', port=8887, debug=False)
+    app.run(debug=True, port=8000)
+    #app.run(host='0.0.0.0', port=8887, debug=False)
 
 
 

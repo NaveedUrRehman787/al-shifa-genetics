@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="page-title">All Samples</h1>
+<p class="page-subtitle"><i class="fa-solid fa-vial" style="color: var(--primary-lighter); margin-right: 6px;"></i>All samples in the database. Click "Add to Processed" to move a sample to View Records</p>
+
+<div class="glass-card" style="margin-bottom: 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; gap: 16px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 300px; max-width: 400px;">
+            <label style="display:block; margin-bottom:8px; font-weight:600;">Search Records</label>
+            <input type="text" id="samplesSearchInput" class="form-control" placeholder="Search by name, MR number, etc..." onkeyup="filterSamples()">
+        </div>
+        <div style="min-width: 200px;">
+            <label style="display:block; margin-bottom:8px; font-weight:600;">Display Columns</label>
+            <select id="samplesDisplayMode" class="form-control" onchange="renderAllSamplesTable()">
+                <option value="essential">Essential Columns</option>
+                <option value="all">All Columns</option>
+            </select>
+        </div>
+        <div>
+            <button type="button" class="btn btn-primary" style="height: 42px;" onclick="loadAllSamples()">
+                <i class="fa-solid fa-rotate-right"></i> Refresh
+            </button>
+        </div>
+    </div>
+    
+    <div class="table-container" style="max-height: 600px; overflow: auto;">
+        <table id="allSamplesTable">
+            <thead id="samplesHead">
+                <!-- Dynamically generated -->
+            </thead>
+            <tbody id="samplesBody">
+                <tr><td colspan="100%" style="text-align: center;"><div class="loader"></div> Loading samples...</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', loadAllSamples);
+</script>
+{% endblock %}

@@ -33,6 +33,11 @@
                 </a>
             </li>
             <li>
+                <a href="{{ url_for('all_samples') }}" class="{% if request.endpoint == 'all_samples' %}active{% endif %}">
+                    <i class="fa-solid fa-vial"></i> <span>All Samples</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{ url_for('view_records') }}" class="{% if request.endpoint == 'view_records' %}active{% endif %}">
                     <i class="fa-solid fa-table"></i> <span>View Records</span>
                 </a>
