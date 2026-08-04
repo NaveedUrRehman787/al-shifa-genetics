@@ -27,12 +27,12 @@
     </div>
 </div>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+<div class="form-grid" style="gap: 24px;">
     <!-- Form Side -->
     <div class="glass-card">
         <h2 style="margin-bottom: 20px;">Add Family Member</h2>
         <form id="memberForm" onsubmit="addMember(event)">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-grid">
                 <div class="form-group">
                     <label>MR Number *</label>
                     <input type="text" id="mr_number" class="form-control" required>
@@ -100,21 +100,34 @@
             
             <hr style="margin: 20px 0; border: 0; border-top: 1px solid rgba(0,0,0,0.1);">
             
-            <div style="display: flex; gap: 24px; margin-bottom: 20px;">
+            <div class="radio-row">
                 <div>
-                    <label style="display:block; font-weight:600; margin-bottom:8px;">Affected Status</label>
-                    <label><input type="radio" name="affected" value="Yes" checked> Affected</label>&nbsp;&nbsp;
-                    <label><input type="radio" name="affected" value="No"> Not Affected</label>
+                    <div style="font-weight:600; margin-bottom:6px;">Affected Status</div>
+                    <div style="display:flex; gap:14px;">
+                        <label><input type="radio" name="affected" value="Yes" checked> Affected</label>
+                        <label><input type="radio" name="affected" value="No"> Not Affected</label>
+                    </div>
                 </div>
                 <div>
-                    <label style="display:block; font-weight:600; margin-bottom:8px;">Consanguinity</label>
-                    <label><input type="radio" name="consanguinity" value="Yes"> Yes</label>&nbsp;&nbsp;
-                    <label><input type="radio" name="consanguinity" value="No" checked> No</label>
+                    <div style="font-weight:600; margin-bottom:6px;">Consanguinity</div>
+                    <div style="display:flex; gap:14px;">
+                        <label><input type="radio" name="consanguinity" value="Yes"> Yes</label>
+                        <label><input type="radio" name="consanguinity" value="No" checked> No</label>
+                    </div>
                 </div>
                 <div>
-                    <label style="display:block; font-weight:600; margin-bottom:8px;">Category</label>
-                    <label><input type="radio" name="category" value="Free"> Free</label>&nbsp;&nbsp;
-                    <label><input type="radio" name="category" value="Private" checked> Private</label>
+                    <div style="font-weight:600; margin-bottom:6px;">Category</div>
+                    <div style="display:flex; gap:14px;">
+                        <label><input type="radio" name="category" value="Free"> Free</label>
+                        <label><input type="radio" name="category" value="Private" checked> Private</label>
+                    </div>
+                </div>
+                <div>
+                    <div style="font-weight:600; margin-bottom:6px;">Family History</div>
+                    <div style="display:flex; gap:14px;">
+                        <label><input type="radio" name="family_history" value="Yes"> Yes</label>
+                        <label><input type="radio" name="family_history" value="No" checked> No</label>
+                    </div>
                 </div>
             </div>
             

@@ -15,7 +15,8 @@ EXCEL_FILE = "family_data.xlsx"
 COLUMNS = [
     "FamilyID", "IndividualID", "MRNumber", "Name", "CNIC", "Age", "Gender",
     "BatchNumber", "Doctor", "Department", "Disease", "Sequencing",
-    "SampleCollected", "Affected", "Consanguinity", "Category", "AnalysisStatus"
+    "SampleCollected", "Affected", "Consanguinity", "Category", "FamilyHistory",
+    "AnalysisStatus"
 ]
 
 # ─── Database Helpers ─────────────────────────────────────────────────────────
@@ -54,6 +55,7 @@ def init_db():
                 Affected        TEXT DEFAULT 'Yes',
                 Consanguinity   TEXT DEFAULT 'No',
                 Category        TEXT DEFAULT 'Private',
+                FamilyHistory   TEXT DEFAULT 'No',
                 AnalysisStatus  TEXT DEFAULT 'Individual Complete - Ready for Bioinformatics',
                 CreatedAt       TEXT DEFAULT (datetime('now','localtime')),
                 FOREIGN KEY (FamilyID) REFERENCES families(FamilyID)
@@ -66,6 +68,17 @@ def init_db():
         count = conn.execute("SELECT COUNT(*) FROM individuals").fetchone()[0]
         if count == 0 and os.path.exists(EXCEL_FILE):
             migrate_from_excel()
+
+    # Add any missing columns to the individuals table (for existing DBs)
+    with get_db() as conn:
+        existing_cols = {r[1] for r in conn.execute("PRAGMA table_info(individuals)").fetchall()}
+        for col, ddl in {
+            "FamilyHistory": "ALTER TABLE individuals ADD COLUMN FamilyHistory TEXT DEFAULT 'No'"
+        }.items():
+            if col not in existing_cols:
+                conn.execute(ddl)
+                print(f"[OK] Added column: {col}")
+        conn.commit()
 
 def migrate_from_excel():
     """One-time migration: import all rows from family_data.xlsx into SQLite."""
@@ -100,8 +113,8 @@ def migrate_from_excel():
                     INSERT OR IGNORE INTO individuals
                     (IndividualID, FamilyID, MRNumber, Name, CNIC, Age, Gender,
                      BatchNumber, Doctor, Department, Disease, Sequencing,
-                     SampleCollected, Affected, Consanguinity, Category, AnalysisStatus)
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                     SampleCollected, Affected, Consanguinity, Category, FamilyHistory, AnalysisStatus)
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                 """, (
                     ind_id, fam_id,
                     str(row['MRNumber']), str(row['Name']), str(row['CNIC']),
@@ -111,6 +124,7 @@ def migrate_from_excel():
                     str(row['Affected']) or 'Yes',
                     str(row['Consanguinity']) or 'No',
                     str(row['Category']) or 'Private',
+                    str(row['FamilyHistory']) or 'No',
                     str(row['AnalysisStatus']) or 'Individual Complete - Ready for Bioinformatics'
                 ))
             conn.commit()
@@ -206,8 +220,8 @@ def submit_family():
                     INSERT INTO individuals
                     (IndividualID, FamilyID, MRNumber, Name, CNIC, Age, Gender,
                      BatchNumber, Doctor, Department, Disease, Sequencing,
-                     SampleCollected, Affected, Consanguinity, Category, AnalysisStatus)
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                     SampleCollected, Affected, Consanguinity, Category, FamilyHistory, AnalysisStatus)
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                 """, (
                     ind_id, family_id,
                     member.get("MRNumber", ""), member.get("Name", ""),
@@ -217,6 +231,7 @@ def submit_family():
                     member.get("SampleCollected", ""),
                     member.get("Affected", "Yes"), member.get("Consanguinity", "No"),
                     member.get("Category", "Private"),
+                    member.get("FamilyHistory", "No"),
                     "Individual Complete - Ready for Bioinformatics"
                 ))
             conn.commit()
@@ -346,7 +361,7 @@ def update_individual():
                 MRNumber=?, Name=?, CNIC=?, Age=?, Gender=?,
                 BatchNumber=?, Doctor=?, Department=?, Disease=?,
                 Sequencing=?, SampleCollected=?, Affected=?,
-                Consanguinity=?, Category=?, AnalysisStatus=?
+                Consanguinity=?, Category=?, FamilyHistory=?, AnalysisStatus=?
             WHERE IndividualID=?
         """, (
             data.get('MRNumber',''), data.get('Name',''), data.get('CNIC',''),
@@ -354,7 +369,8 @@ def update_individual():
             data.get('Doctor',''), data.get('Department',''), data.get('Disease',''),
             data.get('Sequencing',''), data.get('SampleCollected',''),
             data.get('Affected','Yes'), data.get('Consanguinity','No'),
-            data.get('Category','Private'), data.get('AnalysisStatus',''),
+            data.get('Category','Private'), data.get('FamilyHistory','No'),
+            data.get('AnalysisStatus',''),
             ind_id
         ))
         conn.commit()

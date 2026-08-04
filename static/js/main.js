@@ -48,7 +48,8 @@ function addMember(e) {
         Sequencing: document.getElementById('sequencing').value,
         Affected: document.querySelector('input[name="affected"]:checked').value,
         Consanguinity: document.querySelector('input[name="consanguinity"]:checked').value,
-        Category: document.querySelector('input[name="category"]:checked').value
+        Category: document.querySelector('input[name="category"]:checked').value,
+        FamilyHistory: document.querySelector('input[name="family_history"]:checked').value
     };
     
     const mode = document.querySelector('input[name="family_mode"]:checked').value;
@@ -226,6 +227,7 @@ window.renderRecordsTable = function() {
             { key: 'Affected', label: 'Affected' },
             { key: 'Consanguinity', label: 'Consang' },
             { key: 'Category', label: 'Category' },
+            { key: 'FamilyHistory', label: 'Family History' },
             { key: 'AnalysisStatus', label: 'Status' },
             { key: '_processed', label: 'Processed' },
             { key: '_edit', label: 'Edit' }
@@ -329,6 +331,7 @@ window.renderAllSamplesTable = function() {
             { key: 'Affected', label: 'Affected' },
             { key: 'Consanguinity', label: 'Consang' },
             { key: 'Category', label: 'Category' },
+            { key: 'FamilyHistory', label: 'Family History' },
             { key: 'AnalysisStatus', label: 'Status' },
             { key: '_processed', label: 'Processed' },
             { key: '_action', label: 'Action' }

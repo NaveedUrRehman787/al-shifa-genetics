@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,16 +10,18 @@
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
 
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="logo-wrap">
-                <img src="{{ url_for('static', filename='images/alshifa-logo-white.png') }}" alt="Al-Shifa Logo">
+                <img src="{{ url_for('static', filename='images/lab-logo.png') }}" alt="Al-Shifa Lab Logo">
             </div>
             <div class="brand-text">
-                <h2>Al-Shifa Genetics</h2>
-                <span>Database System</span>
+                <h2>Ophthalmic Genetics</h2>
+                <span>Al-Shifa Trust Eye</span>
+                <p><span>Hospital</span></p>
             </div>
         </div>
         <ul class="nav-links">
@@ -28,22 +31,26 @@
                 </a>
             </li>
             <li>
-                <a href="{{ url_for('add_family') }}" class="{% if request.endpoint == 'add_family' %}active{% endif %}">
+                <a href="{{ url_for('add_family') }}"
+                    class="{% if request.endpoint == 'add_family' %}active{% endif %}">
                     <i class="fa-solid fa-user-plus"></i> <span>Add Family</span>
                 </a>
             </li>
             <li>
-                <a href="{{ url_for('all_samples') }}" class="{% if request.endpoint == 'all_samples' %}active{% endif %}">
+                <a href="{{ url_for('all_samples') }}"
+                    class="{% if request.endpoint == 'all_samples' %}active{% endif %}">
                     <i class="fa-solid fa-vial"></i> <span>All Samples</span>
                 </a>
             </li>
             <li>
-                <a href="{{ url_for('view_records') }}" class="{% if request.endpoint == 'view_records' %}active{% endif %}">
+                <a href="{{ url_for('view_records') }}"
+                    class="{% if request.endpoint == 'view_records' %}active{% endif %}">
                     <i class="fa-solid fa-table"></i> <span>View Records</span>
                 </a>
             </li>
             <li>
-                <a href="{{ url_for('remaining_analysis') }}" class="{% if request.endpoint == 'remaining_analysis' %}active{% endif %}">
+                <a href="{{ url_for('remaining_analysis') }}"
+                    class="{% if request.endpoint == 'remaining_analysis' %}active{% endif %}">
                     <i class="fa-solid fa-microscope"></i> <span>Analysis Queue</span>
                 </a>
             </li>
@@ -69,4 +76,5 @@
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     {% block scripts %}{% endblock %}
 </body>
+
 </html>
